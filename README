@@ -1,0 +1,7 @@
+#Genetically Bred Rockets, Running with Neural Network
+
+This poject is a demo, demonstrating the capabilities of the genetic neural network project.
+
+Upon startup, hit localhost.com:3000/static/. A screen will show a single generation of rockets attempting to get from a starting position, around an obstacle, to a goal on the other side. After a set time, the simulation will be reset with a new generation bred form the previous generation.
+
+To alter the running characteristics, alter the think/param.go file. THere you can change teh size of the different layers in the neural network, the error function, the cell's sigmoid function, the method by which random genes are generated, how gene pools are generated, and many other properties. If you have questions about how the program operates or have feed back, please feel free to message me. Your feedback is how I improve.
