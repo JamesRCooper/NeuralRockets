@@ -16,7 +16,7 @@ var startPosition = model.Vec{X: 350, Y: 300}
 //MaxFlightTime designates how long a simulation will run before restarting
 var MaxFlightTime = 750
 var char = neural.CellCharacter{
-	MutationRate: 0.01, Activater: sigmoid, GeneCreator: geneCreator}
+	MutationRate: 0.0125, Activater: sigmoid, GeneCreator: geneCreator}
 
 //InitRockets creates an array of pointers towards a new set of rockets for
 //testing
@@ -42,7 +42,7 @@ func sigmoid(operand float64) float64 {
 }
 
 func geneCreator() float64 {
-	return -2.0*rand.Float64() + 1.0
+	return 2.0*rand.Float64() - 1.0
 }
 
 func checkBoundry(p model.Vec) bool {

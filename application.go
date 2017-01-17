@@ -9,8 +9,8 @@ import (
 
 	"golang.org/x/net/websocket"
 
-	"github.com/jamescooper/neuralRockets/model"
-	"github.com/jamescooper/neuralRockets/rocket"
+	"github.com/JamesRCooper/NeuralRockets/model"
+	"github.com/JamesRCooper/NeuralRockets/rocket"
 )
 
 var root = flag.String("root", ".", "file system path")
@@ -20,7 +20,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.Handle("/ws", websocket.Handler(handler))
 
-	if err := http.ListenAndServe(":80", nil); err != nil {
+	if err := http.ListenAndServe(":3000", nil); err != nil {
 		fmt.Printf("ListenAndServe: %v", err)
 	}
 }
