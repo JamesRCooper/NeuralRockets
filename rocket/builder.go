@@ -1,8 +1,8 @@
 package rocket
 
 import (
-	neural "github.com/jamescooper/neural/model"
-	"github.com/jamescooper/neuralRockets/model"
+	"github.com/JamesRCooper/NeuralRockets/model"
+	neural "github.com/JamesRCooper/geneticNeuralNetwork/model"
 )
 
 //Builder holds all information for creating a population of rockets, and has

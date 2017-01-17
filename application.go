@@ -20,7 +20,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.Handle("/ws", websocket.Handler(handler))
 
-	if err := http.ListenAndServe(":3000", nil); err != nil {
+	if err := http.ListenAndServe(":80", nil); err != nil {
 		fmt.Printf("ListenAndServe: %v", err)
 	}
 }

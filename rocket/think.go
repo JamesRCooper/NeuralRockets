@@ -1,8 +1,8 @@
 package rocket
 
 import (
-	neural "github.com/jamescooper/neural/model"
-	"github.com/jamescooper/neuralRockets/model"
+	"github.com/JamesRCooper/NeuralRockets/model"
+	neural "github.com/JamesRCooper/geneticNeuralNetwork/model"
 )
 
 //Rocket can fly!!!

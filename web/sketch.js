@@ -16,7 +16,7 @@ function draw() {
 
 function Rockets(positions) {
 
-  var ws = new WebSocket("ws://localhost:3000/ws");
+  var ws = new WebSocket("ws://localhost:80/ws");
 
   ws.onopen = function() {
     console.log('Connected');

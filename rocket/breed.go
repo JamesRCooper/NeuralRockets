@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"sort"
 
-	"github.com/jamescooper/neuralRockets/model"
+	"github.com/JamesRCooper/geneticNeuralNetwork/model"
 )
 
 type rocketError struct {
