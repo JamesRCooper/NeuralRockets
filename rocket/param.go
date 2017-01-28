@@ -1,22 +1,24 @@
 package rocket
 
 import (
-	"math"
-	"math/rand"
-
 	"github.com/JamesRCooper/NeuralRockets/model"
-	neural "github.com/JamesRCooper/geneticNeuralNetwork/model"
+	m "github.com/JamesRCooper/geneticNeuralNetwork/model"
+	"github.com/JamesRCooper/geneticNeuralNetwork/mutation"
 )
 
-var numOfRockets = 80
+var numOfRockets = 40
 
 var goalPosition = model.Vec{X: 350, Y: 50}
 var startPosition = model.Vec{X: 350, Y: 300}
 
 //MaxFlightTime designates how long a simulation will run before restarting
-var MaxFlightTime = 750
-var char = neural.CellCharacter{
-	MutationRate: 0.0125, Activater: sigmoid, GeneCreator: geneCreator}
+var MaxFlightTime = 1000
+var char = m.CellCharacter{
+	NeuronBreeder: mutation.BuildNormalBreeder(
+		0.00625, mutation.NormalyDistributedGeneCreator),
+	Activator:   mutation.LogisticSigmoidActivator,
+	GeneCreator: mutation.NormalyDistributedGeneCreator,
+}
 
 //InitRockets creates an array of pointers towards a new set of rockets for
 //testing
@@ -35,14 +37,6 @@ func InitRockets() []*Rocket {
 	}
 
 	return rockets
-}
-
-func sigmoid(operand float64) float64 {
-	return (2.0 / (1.0 + math.Exp(-1.0*operand))) - 1.0
-}
-
-func geneCreator() float64 {
-	return 2.0*rand.Float64() - 1.0
 }
 
 func checkBoundry(p model.Vec) bool {

@@ -34,7 +34,7 @@ func handler(ws *websocket.Conn) {
 		if websocket.Message.Send(ws, string(positions(rockets))) != nil {
 			break
 		}
-		time.Sleep(10 * time.Millisecond)
+		time.Sleep(5 * time.Millisecond)
 		moveRockets(rockets)
 		flightTime++
 		if flightTime >= rocket.MaxFlightTime {

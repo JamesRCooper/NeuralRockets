@@ -60,7 +60,7 @@ func buildInputs(r *Rocket) []float64 {
 	inputs[0] = -1.0 * midPos.X
 	inputs[1] = -1.0 * midPos.Y
 
-	deltaPos := 5.0
+	deltaPos := 12.0
 	inputs[2] = openSpace(r, model.Vec{X: midPos.X - deltaPos, Y: midPos.Y}) //up
 	inputs[3] = openSpace(r, model.Vec{X: midPos.X + deltaPos, Y: midPos.Y}) //down
 	inputs[4] = openSpace(r, model.Vec{X: midPos.X, Y: midPos.Y - deltaPos}) //left
@@ -88,4 +88,20 @@ type CheckBoundry func(model.Vec) bool
 
 func (r *Rocket) breed(partnerRocket Rocket) {
 	r.Brain.Breed(&partnerRocket.Brain)
+}
+
+func (r Rocket) clone() *Rocket {
+	rocket := new(Rocket)
+	rocket.Brain = r.Brain.Clone()
+	rocket.position = startPosition
+	rocket.velocity = model.Vec{X: 0, Y: 0}
+	rocket.acceleration = model.Vec{X: 0, Y: 0}
+
+	rocket.boundryCheck = r.boundryCheck
+	rocket.HitBoundry = false
+	rocket.FlightTime = 0.0
+
+	rocket.goalPosition = r.goalPosition
+
+	return rocket
 }

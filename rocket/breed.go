@@ -1,6 +1,7 @@
 package rocket
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"sort"
@@ -9,8 +10,15 @@ import (
 )
 
 type rocketError struct {
-	rocket *Rocket
-	err    float64
+	rocket        *Rocket
+	err           float64
+	weight        float64
+	weightToPoint float64
+}
+
+type selected struct {
+	rnd float64
+	ind int
 }
 
 //ByErr implements the required interface for running a sorting algorithm
@@ -29,8 +37,16 @@ func (a ByErr) Less(i, j int) bool { return a[i].err < a[j].err }
 func Breed(rockets []*Rocket) {
 	rocketErrors := buildSortedErrors(rockets)
 	for index := range rockets {
-		rndValue := ((1.0 + rand.Float64()) / 2.0) * float64(numOfRockets)
-		selection := int((1.0 + math.Sqrt(1.0+(8.0*rndValue))) / 2.0)
+		if index == 0 {
+			rockets[0] = rocketErrors[0].rocket.clone()
+			continue
+		}
+		rndValue := rand.Float64()
+		//selection := int((1.0 + math.Sqrt(1.0+(8.0*rndValue))) / 2.0)
+		selection := sort.Search(numOfRockets, func(i int) bool {
+			return rocketErrors[i].weightToPoint > rndValue
+		})
+		fmt.Println(selected{rndValue, selection})
 		partnerRocket := rocketErrors[selection]
 		rockets[index].breed(*partnerRocket.rocket)
 
@@ -45,12 +61,28 @@ func Breed(rockets []*Rocket) {
 func buildSortedErrors(rockets []*Rocket) []rocketError {
 
 	rocketErrors := make([]rocketError, numOfRockets)
+	var currentError, totalError, maxError float64
 	for index := 0; index < numOfRockets; index++ {
-		currentError := processError(rockets[index])
-		rocketErrors[index] = rocketError{rockets[index], currentError}
+		rocketErrors[index] = *new(rocketError)
+		currentError = processError(rockets[index])
+		rocketErrors[index].err = currentError
+		rocketErrors[index].rocket = rockets[index]
+		totalError += currentError
+		if currentError > maxError {
+			maxError = currentError
+		}
 	}
 
 	sort.Sort(ByErr(rocketErrors))
+	fmt.Println(totalError)
+	totalWeight := 0.0
+	for index := 0; index < numOfRockets; index++ {
+		rocketErrors[index].weight = (maxError - rocketErrors[index].err) / (maxError*float64(numOfRockets) - totalError)
+		totalWeight += rocketErrors[index].weight
+		rocketErrors[index].weightToPoint = totalWeight
+		fmt.Println(rocketErrors[index])
+	}
+
 	return rocketErrors
 }
 
@@ -64,7 +96,7 @@ func processError(r *Rocket) float64 {
 	totalErr += math.Sqrt(xErr + yErr)
 
 	if r.HitBoundry {
-		totalErr += 200.0 * (8.0 - (float64(r.FlightTime) / float64(MaxFlightTime)))
+		totalErr += 400.0 * (2.0 - (float64(r.FlightTime) / float64(MaxFlightTime)))
 	}
 
 	return totalErr
